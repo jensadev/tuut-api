@@ -21,7 +21,7 @@ module.exports = {
     },
     getUsers: callBack => {
         pool.query(
-            'select * from users',
+            'select name, email from users',
             [],
             (error, results, fields) => {
                 if (error) {
@@ -33,7 +33,7 @@ module.exports = {
     },
     getUserById: (id, callBack) => {
         pool.query(
-            'select * from users where id = ?',
+            'select name, email from users where id = ?',
             [id],
             (error, results, fields) => {
                 if (error) {

@@ -18,10 +18,11 @@ module.exports = {
             }       
         );
     },
-    getTuuts: callBack => {
+    getTuuts: (page, total, perPage, callBack) => {
+        console.log(page, total, perPage);
         pool.query(
-            'select * from tuuts',
-            [],
+            'SELECT tuuts.*, users.name FROM tuuts JOIN users ON tuuts.user_id = users.id ORDER BY updated_at DESC LIMIT ? OFFSET ?',
+            [perPage, page * perPage],
             (error, results, fields) => {
                 if (error) {
                     return callBack(error);
@@ -30,9 +31,21 @@ module.exports = {
             }
         )
     },
+    countTuuts: callBack => {
+        pool.query(
+            'SELECT COUNT(id) as totalCount FROM tuuts',
+            [],
+            (error, results, fields) => {
+                if (error) {
+                    return callBack(error);
+                }
+                return callBack(null, results[0].totalCount);
+            }
+        )
+    },
     getTuutById: (id, callBack) => {
         pool.query(
-            'select * from tuuts where id = ?',
+            'select tuuts.*, users.name from tuuts join users on tuuts.user_id = users.id where id = ?',
             [id],
             (error, results, fields) => {
                 if (error) {

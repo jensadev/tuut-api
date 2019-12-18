@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // https://stackoverflow.com/questions/5448545/how-to-retrieve-get-parameters-from-javascript
+
+        function getQuery(q) {
+            return (window.location.search.match(new RegExp('[?&]' + q + '=([^&]+)')) || [, null])[1];
+        }
+
+        console.log(getQuery("id"));
+    </script>
+</body>
+</html>

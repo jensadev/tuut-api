@@ -28,7 +28,7 @@ module.exports = {
                     message: "Database error"
                 });     
             }
-            return res.status(200).json({
+            return res.status(201).json({
                 success: 1,
                 data: result
             });
@@ -97,12 +97,12 @@ module.exports = {
                 console.log(err);
                 return;
             }
-            // if (!results) {
-            //     return res.status(400).json({
-            //         success: 0,
-            //         message: "Record not found"
-            //     });
-            // }
+            if (results.affectedRows != 1) {
+                return res.status(404).json({
+                    success: 0,
+                    message: "Record not found"
+                });
+            }
             return res.status(200).json({
                 success: 1,
                 message: "user deleted successfully"
@@ -118,7 +118,7 @@ module.exports = {
             if (!results) {
                 return res.json({
                     success: 0,
-                    data: "Invalid name or password"
+                    message: "Invalid name or password"
                 });
             }
             const result = compareSync(body.password, results.password);
@@ -128,14 +128,14 @@ module.exports = {
                     expiresIn: "1h"
                 });
                 return res.status(200).json({
-                    sucess: 1,
+                    success: 1,
                     message: "login successfull",
                     token: jsontoken
                 });
             } else {
                 return res.json({
                     success: 0,
-                    data: "Invalid name or password"
+                    message: "Invalid name or password"
                 });
             }
 

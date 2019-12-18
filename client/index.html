@@ -4,32 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>API test</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container">
-        <form id="login_form">
-            <div class="form-group">
-                <label for="input_name">Name</label>
-                <input type="text" class="form-control" id="input_name" name="input_name">
-            </div>
-            <div class="form-group">
-            <label for="input_password">Password</label>
-            <input type="password" class="form-control" id="input_password" name="input_password">
-            </div>
-            <!-- <div class="form-group form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1">
-              <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div> -->
-            <button type="submit" class="btn btn-primary">Login</button>
-          </form>        
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <nav class="navbar container">
+            <a href="index.html" class="brand">
+                <img class="brand-icon" src="img/megaphone.png" alt="Brand">
+                <strong>TUUT</strong>
+            </a>
+            <ul class="registration-links">
+                <li><a id="signin-link" href="signin.html">Sign in</a></li>
+                <li><a id="signup-link" href="signup.html">Sign up</a></li>
+            </ul>
+            <form id="logout-form" class="hidden"><button>Logout</button></form>
+    </nav>
+    <main class="container">
+        <div class="alert" role="alert" id="alert-box"></div>
+        <div class="form-container hidden" id="login-form">
+            <form>
+                <div class="form-group">
+                    <label for="input-name">Name</label>
+                    <input type="text" class="form-control" id="input-name" name="input-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="input-password">Password</label>
+                    <input type="password" class="form-control" id="input-password" name="input-password" required>
+                    <small class="form-text text-muted"><a href="#">Forgot password?</a></small>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+        </div>
+        <div class="form-container hidden" id="registration-form">
+            <form>
+                <div class="form-group">
+                    <label for="input-reg-name">Name</label>
+                    <input type="text" class="form-control" id="input-reg-name" name="input-reg-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="input-reg-email">Email</label>
+                    <input type="text" class="form-control" id="input-reg-email" name="input-reg-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="input-reg-password">Password</label>
+                    <input type="password" class="form-control" id="input-reg-password" name="input-reg-password" required>
+                </div>
+                <button type="submit" class="btn">Register</button>
+            </form>    
+        </div>
+        <div class="form-container hidden" id="post-form">
+            <form>
+                <div class="form-group">
+                    <label for="input-body" hidden>Write something...</label>
+                    <textarea 
+                        class="form-control" 
+                        id="input-body" 
+                        name="input-body" 
+                        maxlength="140" 
+                        rows="3" 
+                        placeholder="Write something..." 
+                        required></textarea>
+                </div>
+                <button type="submit" class="btn">Tuut</button>
+            </form>    
+        </div>
+        <div id="tuuts-stream">
+        </div>
+        <div id="users-list"></div>
+    </main>
+    <footer class="container">
+        <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+    </footer>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/dom.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

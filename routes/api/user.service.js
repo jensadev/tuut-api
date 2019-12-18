@@ -2,6 +2,7 @@ const pool = require('../../config/db');
 
 module.exports = {
     create: (data, callBack) => {
+        // behöver ge lite bättre felmeddalden, email unik osv.
         pool.query(
             'insert into users (name, email, password, created_at, updated_at) values (?, ?, ?, ?, ?)',
             [

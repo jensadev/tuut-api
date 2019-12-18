@@ -1,6 +1,7 @@
 const {
     create,
     getTuuts,
+    countTuuts,
     getTuutById,
     updateTuut,
     deleteTuut
@@ -30,14 +31,26 @@ module.exports = {
         });
     },
     getAllTuuts: (req, res) => {
-        getTuuts((err, results) => {
+        const page = req.params.page > 0 ? req.params.page : 0;
+        countTuuts((err, results) => {
             if (err) {
                 console.log(err);
-                return;  
             }
-            return res.status(200).json({
-                success: 1,
-                data: results
+            const total = results || 0;
+            const perPage = 10;
+            const pageCount = Math.ceil(total / perPage);
+
+            getTuuts(page, total, perPage, (err, results) => {
+                if (err) {
+                    console.log(err);
+                    return;  
+                }
+                return res.status(200).json({
+                    success: 1,
+                    currentPage: page,
+                    pageCount: pageCount,
+                    data: results
+                });
             });
         });
     },
@@ -85,8 +98,8 @@ module.exports = {
         });
     },
     deleteTuut: (req, res) => {
-        const data = req.body;
-        deleteTuut(data, (err, results) => {
+        const body = req.body;
+        deleteTuut(body, (err, results) => {
             if (err) {
                 console.log(err);
                 return;

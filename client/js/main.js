@@ -75,8 +75,8 @@ postForm.addEventListener('submit', (e) => {
  */
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    let inputName = document.getElementById("input-name");
-    let inputPassword = document.getElementById("input-password");
+    let inputName = document.getElementById("username");
+    let inputPassword = document.getElementById("current-password");
 
     // validate
 
@@ -110,9 +110,9 @@ loginForm.addEventListener('submit', (e) => {
  */
 registrationForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    let inputName = document.getElementById("input-reg-name");
-    let inputEmail = document.getElementById("input-reg-email");
-    let inputPassword = document.getElementById("input-reg-password");
+    let inputName = document.getElementById("new-username");
+    let inputEmail = document.getElementById("new-email");
+    let inputPassword = document.getElementById("new-password");
 
     // validate
 

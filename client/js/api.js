@@ -1,13 +1,14 @@
+const host = "http://172.23.1.47:3000";
+
 /*
  * Async metoder för att prata med API
  */
-
 async function login(body) {
     let config = {
         headers: {'content-type': 'application/json'}
     };    
     try {
-        const response = await axios.post('http://localhost:3000/users/login',
+        const response = await axios.post(host + '/users/login',
             body,
             config
         );
@@ -25,7 +26,7 @@ async function register(body) {
         headers: {'content-type': 'application/json'}
     };    
     try {
-        const response = await axios.post('http://localhost:3000/users',
+        const response = await axios.post(host + '/users',
             body,
             config
         );
@@ -38,13 +39,30 @@ async function register(body) {
     }
 }
 
+// skitkorv pagination pajjar 
 async function getTuuts(page) {
     let config = {
         headers: {'content-type': 'application/json'}
     };
     try {
-        const response = await axios.get('http://localhost:3000/tuuts/' + page, config);
+        const response = await axios.get(host + '/tuuts/' + page, config);
         return response.data;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+}
+
+async function getTuutById(id) {
+    let config = {
+        headers: {
+            'content-type': 'application/json'
+        }
+    };
+    try {
+        const response = await axios.get(host + '/tuuts/' + id, config);
+        console.log(response);
+        return response.request.responseText;
     } catch (error) {
         console.error(error);
         return error;
@@ -59,7 +77,7 @@ async function post(body) {
         }
     };
     try {
-        const response = await axios.post('http://localhost:3000/tuuts',
+        const response = await axios.post(host + '/tuuts',
             body,
             config
         );
@@ -77,10 +95,29 @@ async function getUsers() {
         }
     };
     try {
-        const response = await axios.get('http://localhost:3000/users', config);
+        const response = await axios.get(host + '/users', config);
         console.log(response.request.responseText);
+        return response.request.responseText;
     } catch (error) {
         console.error(error);
+        return error;
+    }
+}
+
+async function getUserById(id) {
+    let config = {
+        headers: {
+            'Authorization': "bearer " + token,
+            'content-type': 'application/json'
+        }
+    };
+    try {
+        const response = await axios.get(host + '/users/' + id, config);
+        console.log(response.request.responseText);
+        return response.request.responseText;
+    } catch (error) {
+        console.error(error);
+        return error;
     }
 }
 
@@ -92,5 +129,6 @@ async function logout() {
         return "logged out";
     } catch (error) {
         console.error(error);
+        return error;
     }
 }

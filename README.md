@@ -1,8 +1,14 @@
-# tuut api
+# Tuut api
 
-Baserat på https://www.youtube.com/watch?v=WfCJ3sHnLBM
+Ett API exempel för att lära ut REST, routes osv. i webbkurser.
+Osäkert och CORS.
+
+Ladda ned clienten och prova mot API, designa den som du vill.
+https://github.com/jensnti/tuut-client
 
 ## Starta
+
+Typ detta
 
     git clone
     cd tuut-api
@@ -22,3 +28,8 @@ Baserat på https://www.youtube.com/watch?v=WfCJ3sHnLBM
 * @mentions
 * Kommentarer på en tråd
 * likes
+
+## TODO
+
+* Validation
+* Security

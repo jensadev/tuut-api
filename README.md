@@ -13,6 +13,7 @@ Typ detta
     git clone
     cd tuut-api
     npm install
+
     cp .env_example .env
     nano .env
 
@@ -21,6 +22,11 @@ Typ detta
     exit
     mysql -u -p tuut.-api < tuut.sql
 
+    npm start
+
+eller
+
+    npm install -g nodemon
     nodemon start
 
 ## Vad kan du göra?

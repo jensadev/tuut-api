@@ -20,9 +20,22 @@ module.exports = {
         body.created_at = dateTime;
         body.updated_at = dateTime;
         
+        if (!body.email.includes("ga.ntig.se")) {
+            return res.status(400).json({
+                success: 0,
+                message: "Invalid email"
+            });             
+        }
+
         create(body, (err, result) => {
             if (err) {
                 console.log(err);
+                if (err.errno == 1062) {
+                    return res.status(500).json({
+                        success: 0,
+                        message: "Duplicate name or email"
+                    });                      
+                }
                 return res.status(500).json({
                     success: 0,
                     message: "Database error"

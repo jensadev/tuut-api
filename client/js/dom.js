@@ -9,10 +9,22 @@ function htmlTuut(data) {
     tuutDiv.classList.add("tuut");
 
     let userLink = document.createElement("a");
-    userLink.href = "user.html?id=" + data.user_id;
+    userLink.href = "user/" + data.user_id;
     userLink.textContent = data.name;
 
-    let userTitle = document.createElement("h2");
+    userLink.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        getUserById(data.user_id).then((response) => {
+            if (response.success == "1") {
+                console.log(response.data);
+                //usersList.appendChild(userCard(response.data));
+                usersList.prepend(userCard(response.data));
+            }
+        });
+    })
+
+    let userTitle = document.createElement("h5");
     userTitle.classList.add("tuut-title");
     userTitle.appendChild(userLink);
 
@@ -35,7 +47,6 @@ function toggle(element) {
     element.classList.toggle("hidden");
 }
 
-
 function alertMessage(element, message) {
     element.textContent = message;
     toggle(element);
@@ -46,10 +57,11 @@ function alertMessage(element, message) {
 }
 
 function paginate(pageCount) {
+    // massor med duplicerad kod, orka
     let paginationUl = document.getElementById("pagination");
-    if(!paginationUl)
+    if (!paginationUl) {
         paginationUl = document.createElement('ul');
-
+    }
     paginationUl.classList.add("pagination");
     paginationUl.id = "pagination";
 
@@ -75,7 +87,7 @@ function paginate(pageCount) {
     paginationPreLi.classList.add("page-item");
     paginationUl.appendChild(paginationPreLi);
 
-    for(let i = 0; i < pageCount; i++) {
+    for (let i = 0; i < pageCount; i++) {
         let paginationLi = document.createElement('li');
         let paginationLink = document.createElement('a');
         paginationLink.href = "#";
@@ -83,7 +95,6 @@ function paginate(pageCount) {
         paginationLink.addEventListener('click', (e) => {
             e.preventDefault();
             currentPage = i;
-            console.log(currentPage);
             getTuuts(currentPage).then((response) => {
                 if (response.success == "1") {
                     tuutsStream.innerHTML = "";
@@ -97,8 +108,9 @@ function paginate(pageCount) {
         });
         paginationLi.appendChild(paginationLink);
         paginationLi.classList.add("page-item");
-        if (currentPage == i)
+        if (currentPage == i) {
             paginationLi.classList.add("active");
+        }
         paginationUl.appendChild(paginationLi);
     }
 
@@ -108,9 +120,10 @@ function paginate(pageCount) {
     paginationNextLink.textContent = ">";
     paginationNextLink.addEventListener('click', (e) => {
         e.preventDefault();
-        if (currentPage < pageCount - 1)
+        if (currentPage < pageCount - 1) {
             currentPage++;
-    
+        }
+
         getTuuts(currentPage).then((response) => {
             if (response.success == "1") {
                 tuutsStream.innerHTML = "";
@@ -127,4 +140,37 @@ function paginate(pageCount) {
     paginationUl.appendChild(paginationNextLi);
 
     tuutsStream.appendChild(paginationUl);
+}
+
+function userCard(data) {
+    let card = document.createElement("div");
+    card.classList.add("card");
+
+    let imgDiv = document.createElement("div");
+    let cardImg = document.createElement("img");
+    cardImg.classList.add("card-img");
+    cardImg.src = "https://robohash.org/" + data.name;
+    imgDiv.appendChild(cardImg);
+
+    let cardBody = document.createElement("div");
+    cardBody.classList.add("card-body");
+
+    let cardTitle = document.createElement("h5");
+    cardTitle.classList.add("card-title");
+    cardTitle.textContent = data.name;
+    let cardTitleSmall = document.createElement("small");
+    cardTitleSmall.textContent = data.email;
+    cardTitle.appendChild(cardTitleSmall);
+
+    let cardText = document.createElement("p");
+    cardText.classList.add("card-text");
+    cardText.textContent = data.bio ? data.bio : "";
+
+    cardBody.appendChild(cardTitle);
+    cardBody.appendChild(cardText);
+
+    card.appendChild(imgDiv);
+    card.appendChild(cardBody);
+
+    return card;
 }

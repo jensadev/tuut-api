@@ -1,4 +1,4 @@
-const host = "http://172.23.1.47:3000";
+const host = "http://localhost:3000";
 
 /*
  * Async metoder för att prata med API
@@ -96,8 +96,8 @@ async function getUsers() {
     };
     try {
         const response = await axios.get(host + '/users', config);
-        console.log(response.request.responseText);
-        return response.request.responseText;
+        // console.log(response.request.responseText);
+        return response.data;
     } catch (error) {
         console.error(error);
         return error;
@@ -113,8 +113,8 @@ async function getUserById(id) {
     };
     try {
         const response = await axios.get(host + '/users/' + id, config);
-        console.log(response.request.responseText);
-        return response.request.responseText;
+        // console.log(response.request.responseText);
+        return response.data;
     } catch (error) {
         console.error(error);
         return error;
@@ -125,7 +125,6 @@ async function logout() {
     try {
         localStorage.removeItem('token');
         token = null;
-        console.log("logout");
         return "logged out";
     } catch (error) {
         console.error(error);

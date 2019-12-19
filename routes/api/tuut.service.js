@@ -19,7 +19,7 @@ module.exports = {
         );
     },
     getTuuts: (page, total, perPage, callBack) => {
-        console.log(page, total, perPage);
+        // console.log(page, total, perPage);
         pool.query(
             'SELECT tuuts.*, users.name FROM tuuts JOIN users ON tuuts.user_id = users.id ORDER BY updated_at DESC LIMIT ? OFFSET ?',
             [perPage, page * perPage],

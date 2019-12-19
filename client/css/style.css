@@ -56,6 +56,22 @@
     width: 100%;
 }
 
+.card {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.card-img {
+    width: 64px;
+    height: 64px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
 /* tuut classes */
 .tuut {
 

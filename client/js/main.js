@@ -9,6 +9,8 @@ const logoutForm = document.getElementById('logout-form');
 const postForm = document.getElementById("post-form");
 const signinLink = document.getElementById('signin-link');
 const signupLink = document.getElementById('signup-link');
+const usersList = document.getElementById('users-list'); 
+const profile = document.getElementById('profile');
 
 /*
  * Kontrollera om användaren är inloggad.
@@ -20,16 +22,24 @@ let perPage = 10;
 
 try {
     token = getWithExpiry('token');
+    userId = getWithExpiry('userId');
 } catch (error) {
     console.log(error);
-    alertBox.textContent = error;
+    alertMessage(alertBox, error);
 }
 
 if (token) {
     toggle(document.querySelector(".registration-links"));
     toggle(logoutForm);
     toggle(postForm);
-    alertBox.textContent = "You are logged in";
+//    alertMessage(alertBox, "You are logged in");
+    getUserById(userId).then((response) => {
+        if (response.success == "1") {
+            console.log(response.data);
+            profile.appendChild(userCard(response.data));
+            toggle(profile);
+        }
+    });
 }
 
 /*
@@ -62,9 +72,23 @@ postForm.addEventListener('submit', (e) => {
     
     post(bodyParams).then((response) => {
         // console.log(response.data.insertId);
-        location.reload();
+        alertMessage(alertBox, "Post successfull.");
+        //setInterval(location.reload(), 5000);
+        //inputBody.disabled = true;
+        //window.setTimeout(() => { location.reload() }, 1000);
+        inputBody.value = "";
+        getTuuts(currentPage).then((response) => {
+            if (response.success == "1") {
+                tuutsStream.innerHTML = "";
+                response.data.forEach(tuut => {
+                    tuutsStream.appendChild(htmlTuut(tuut));
+                });
+                currentPage = response.currentPage;
+                paginate(response.pageCount);
+            }
+        });
     }).catch((error) => {
-        console.log(error);
+        alertMessage(alertBox, error);
     })
 
 });
@@ -86,22 +110,22 @@ loginForm.addEventListener('submit', (e) => {
     }
     
     login(bodyParams).then((response) => {
-        console.log(response);
         if (response.success == "1") {
-            console.log("logged in");
+            console.log(response)
             setWithExpiry('token', response.token, 3600000); // 3 600 000
+            setWithExpiry('userId', response.userId, 3600000);
             token = response.token;
             toggle(loginForm);
             toggle(document.querySelector(".registration-links"));
             toggle(logoutForm);
-            toggle(postForm);
             //alertBox.textContent = "You are logged in";
             alertMessage(alertBox, "You are logged in");
+            toggle(postForm);
         } else {
             alertMessage(alertBox, response.message);
         }
     }).catch((error) => {
-        console.log(error);
+        alertMessage(alertBox, error);
     })
 });
 
@@ -123,7 +147,6 @@ registrationForm.addEventListener('submit', (e) => {
     }
     
     register(bodyParams).then((response) => {
-        console.log(response);
         if (response.success == "1") {
         //     console.log("logged in");
         //     setWithExpiry('token', response.token, 3600000); // 3 600 000
@@ -138,7 +161,7 @@ registrationForm.addEventListener('submit', (e) => {
             alertMessage(alertBox, response.message);
         }
     }).catch((error) => {
-        console.log(error);
+        alertMessage(alertBox, error);
     })
 });
 

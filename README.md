@@ -29,6 +29,9 @@ eller
     npm install -g nodemon
     nodemon start
 
+Om allt fungerat så bör ditt API nu finnas på localhost:3000
+Kolla om det är uppe på / routen, resten finns under /users och /tuuts
+
 ## Vad kan du göra?
 
 * @mentions

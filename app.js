@@ -4,7 +4,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const sassMiddleware = require('node-sass-middleware');
+const rfs = require('rotating-file-stream')
 // const cors = require('cors');
 
 const indexRouter = require('./routes/index');
@@ -19,7 +19,15 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(logger('dev'));
+// create a rotating write stream
+var accessLogStream = rfs.createStream('access.log', {
+  size: "10M", // rotate every 10 MegaBytes written
+    interval: '1d', // rotate daily
+    path: path.join(__dirname, 'log'),
+    compress: "gzip" // compress rotated files
+});
+
+app.use(logger('combined', { stream: accessLogStream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
